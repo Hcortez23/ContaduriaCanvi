@@ -1,0 +1,199 @@
+{
+ "pagina": 1,
+ "filas": [
+  {
+   "codigo": "NK-001",
+   "modelo": "Air Force 1 '07",
+   "color": "Blanco",
+   "talla": 40,
+   "existencia": 20,
+   "precioUnitario": 250,
+   "totalModelo": 5000,
+   "numero": 1
+  },
+  {
+   "codigo": "NK-002",
+   "modelo": "Air Force 1 '07",
+   "color": "Negro",
+   "talla": 41,
+   "existencia": 18,
+   "precioUnitario": 250,
+   "totalModelo": 4500,
+   "numero": 2
+  },
+  {
+   "codigo": "NK-003",
+   "modelo": "Air Max 90",
+   "color": "Gris y negro",
+   "talla": 42,
+   "existencia": 15,
+   "precioUnitario": 280,
+   "totalModelo": 4200,
+   "numero": 3
+  },
+  {
+   "codigo": "NK-004",
+   "modelo": "Air Max Excee",
+   "color": "Negro",
+   "talla": 39,
+   "existencia": 18,
+   "precioUnitario": 270,
+   "totalModelo": 4860,
+   "numero": 4
+  },
+  {
+   "codigo": "NK-005",
+   "modelo": "Court Vision Low",
+   "color": "Blanco y negro",
+   "talla": 40,
+   "existencia": 24,
+   "precioUnitario": 220,
+   "totalModelo": 5280,
+   "numero": 5
+  },
+  {
+   "codigo": "NK-006",
+   "modelo": "Court Vision Mid",
+   "color": "Blanco",
+   "talla": 42,
+   "existencia": 16,
+   "precioUnitario": 240,
+   "totalModelo": 3840,
+   "numero": 6
+  },
+  {
+   "codigo": "NK-007",
+   "modelo": "Revolution 7",
+   "color": "Negro",
+   "talla": 38,
+   "existencia": 22,
+   "precioUnitario": 200,
+   "totalModelo": 4400,
+   "numero": 7
+  },
+  {
+   "codigo": "NK-008",
+   "modelo": "Downshifter",
+   "color": "Azul",
+   "talla": 39,
+   "existencia": 20,
+   "precioUnitario": 210,
+   "totalModelo": 4200,
+   "numero": 8
+  },
+  {
+   "codigo": "NK-009",
+   "modelo": "Pegasus",
+   "color": "Negro y gris",
+   "talla": 42,
+   "existencia": 14,
+   "precioUnitario": 320,
+   "totalModelo": 4480,
+   "numero": 9
+  },
+  {
+   "codigo": "NK-010",
+   "modelo": "Winflo",
+   "color": "Blanco y azul",
+   "talla": 41,
+   "existencia": 18,
+   "precioUnitario": 280,
+   "totalModelo": 5040,
+   "numero": 10
+  },
+  {
+   "codigo": "NK-011",
+   "modelo": "Dunk Low",
+   "color": "Blanco y verde",
+   "talla": 40,
+   "existencia": 16,
+   "precioUnitario": 300,
+   "totalModelo": 4800,
+   "numero": 11
+  },
+  {
+   "codigo": "NK-012",
+   "modelo": "Dunk Low",
+   "color": "Negro y blanco",
+   "talla": 43,
+   "existencia": 12,
+   "precioUnitario": 300,
+   "totalModelo": 3600,
+   "numero": 12
+  },
+  {
+   "codigo": "NK-013",
+   "modelo": "Blazer Mid '77",
+   "color": "Blanco",
+   "talla": 41,
+   "existencia": 18,
+   "precioUnitario": 260,
+   "totalModelo": 4680,
+   "numero": 13
+  },
+  {
+   "codigo": "NK-014",
+   "modelo": "SB Chron 2",
+   "color": "Negro y blanco",
+   "talla": 40,
+   "existencia": 22,
+   "precioUnitario": 220,
+   "totalModelo": 4840,
+   "numero": 14
+  },
+  {
+   "codigo": "NK-015",
+   "modelo": "Air Jordan 1 Low",
+   "color": "Rojo y negro",
+   "talla": 42,
+   "existencia": 16,
+   "precioUnitario": 350,
+   "totalModelo": 5600,
+   "numero": 15
+  },
+  {
+   "codigo": "NK-016",
+   "modelo": "Air Jordan 1 Mid",
+   "color": "Blanco y gris",
+   "talla": 43,
+   "existencia": 14,
+   "precioUnitario": 340,
+   "totalModelo": 4760,
+   "numero": 16
+  },
+  {
+   "codigo": "NK-017",
+   "modelo": "Mercurial",
+   "color": "Negro y naranja",
+   "talla": 39,
+   "existencia": 20,
+   "precioUnitario": 320,
+   "totalModelo": 6400,
+   "numero": 17
+  },
+  {
+   "codigo": "NK-018",
+   "modelo": "Tiempo",
+   "color": "Negro",
+   "talla": 40,
+   "existencia": 18,
+   "precioUnitario": 300,
+   "totalModelo": 5400,
+   "numero": 18
+  },
+  {
+   "codigo": "NK-019",
+   "modelo": "Jordan Legacy 312",
+   "color": "Azul y blanco",
+   "talla": 42,
+   "existencia": 12,
+   "precioUnitario": 330,
+   "totalModelo": 3960,
+   "numero": 19
+  }
+ ],
+ "subtotal": 95500,
+ "iva": 12415,
+ "total": 107915,
+ "titulo": null
+}

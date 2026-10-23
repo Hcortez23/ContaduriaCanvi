@@ -1,0 +1,199 @@
+{
+ "pagina": 1,
+ "filas": [
+  {
+   "codigo": "PM-001",
+   "modelo": "Smash V2",
+   "color": "Blanco",
+   "talla": 40,
+   "existencia": 30,
+   "precioUnitario": 55,
+   "totalModelo": 1650,
+   "numero": 1
+  },
+  {
+   "codigo": "PM-002",
+   "modelo": "Suede Classic",
+   "color": "Negro",
+   "talla": 41,
+   "existencia": 32,
+   "precioUnitario": 65,
+   "totalModelo": 2080,
+   "numero": 2
+  },
+  {
+   "codigo": "PM-003",
+   "modelo": "RS-X",
+   "color": "Gris y azul",
+   "talla": 42,
+   "existencia": 28,
+   "precioUnitario": 85,
+   "totalModelo": 2380,
+   "numero": 3
+  },
+  {
+   "codigo": "PM-004",
+   "modelo": "Caven 2.0",
+   "color": "Blanco y negro",
+   "talla": 39,
+   "existencia": 35,
+   "precioUnitario": 60,
+   "totalModelo": 2100,
+   "numero": 4
+  },
+  {
+   "codigo": "PM-005",
+   "modelo": "Flyer Runner",
+   "color": "Negro",
+   "talla": 40,
+   "existencia": 40,
+   "precioUnitario": 50,
+   "totalModelo": 2000,
+   "numero": 5
+  },
+  {
+   "codigo": "PM-006",
+   "modelo": "Anzarun Lite",
+   "color": "Azul",
+   "talla": 42,
+   "existencia": 34,
+   "precioUnitario": 48,
+   "totalModelo": 1632,
+   "numero": 6
+  },
+  {
+   "codigo": "PM-007",
+   "modelo": "Softride Enzo",
+   "color": "Rojo y negro",
+   "talla": 38,
+   "existencia": 29,
+   "precioUnitario": 58,
+   "totalModelo": 1682,
+   "numero": 7
+  },
+  {
+   "codigo": "PM-008",
+   "modelo": "R78",
+   "color": "Blanco y gris",
+   "talla": 39,
+   "existencia": 31,
+   "precioUnitario": 62,
+   "totalModelo": 1922,
+   "numero": 8
+  },
+  {
+   "codigo": "PM-009",
+   "modelo": "Carina 2.0",
+   "color": "Blanco",
+   "talla": 42,
+   "existencia": 27,
+   "precioUnitario": 68,
+   "totalModelo": 1836,
+   "numero": 9
+  },
+  {
+   "codigo": "PM-010",
+   "modelo": "Future Rider",
+   "color": "Verde y blanco",
+   "talla": 41,
+   "existencia": 33,
+   "precioUnitario": 75,
+   "totalModelo": 2475,
+   "numero": 10
+  },
+  {
+   "codigo": "PM-011",
+   "modelo": "Court Classic",
+   "color": "Negro y blanco",
+   "talla": 40,
+   "existencia": 36,
+   "precioUnitario": 52,
+   "totalModelo": 1872,
+   "numero": 11
+  },
+  {
+   "codigo": "PM-012",
+   "modelo": "Electrify Nitro",
+   "color": "Azul y negro",
+   "talla": 43,
+   "existencia": 25,
+   "precioUnitario": 80,
+   "totalModelo": 2000,
+   "numero": 12
+  },
+  {
+   "codigo": "PM-013",
+   "modelo": "Velocity Nitro",
+   "color": "Negro",
+   "talla": 41,
+   "existencia": 30,
+   "precioUnitario": 90,
+   "totalModelo": 2700,
+   "numero": 13
+  },
+  {
+   "codigo": "PM-014",
+   "modelo": "Pacer Future",
+   "color": "Gris",
+   "talla": 40,
+   "existencia": 38,
+   "precioUnitario": 47,
+   "totalModelo": 1786,
+   "numero": 14
+  },
+  {
+   "codigo": "PM-015",
+   "modelo": "Karmen",
+   "color": "Blanco y rosa",
+   "talla": 42,
+   "existencia": 29,
+   "precioUnitario": 70,
+   "totalModelo": 2030,
+   "numero": 15
+  },
+  {
+   "codigo": "PM-016",
+   "modelo": "X-Ray",
+   "color": "Negro y naranja",
+   "talla": 43,
+   "existencia": 32,
+   "precioUnitario": 72,
+   "totalModelo": 2304,
+   "numero": 16
+  },
+  {
+   "codigo": "PM-017",
+   "modelo": "Tazon 6",
+   "color": "Blanco y azul",
+   "talla": 39,
+   "existencia": 37,
+   "precioUnitario": 57,
+   "totalModelo": 2109,
+   "numero": 17
+  },
+  {
+   "codigo": "PM-018",
+   "modelo": "Deviate Nitro",
+   "color": "Negro y verde",
+   "talla": 40,
+   "existencia": 26,
+   "precioUnitario": 88,
+   "totalModelo": 2288,
+   "numero": 18
+  },
+  {
+   "codigo": "PM-019",
+   "modelo": "Graviton",
+   "color": "Azul y blanco",
+   "talla": 42,
+   "existencia": 35,
+   "precioUnitario": 54,
+   "totalModelo": 1890,
+   "numero": 19
+  }
+ ],
+ "subtotal": 38816,
+ "iva": 5046.08,
+ "total": 43862.08,
+ "titulo": "INVENTARIO DE ZAPATOS PUMA"
+}
