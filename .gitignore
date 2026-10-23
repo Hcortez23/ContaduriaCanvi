@@ -3,6 +3,4 @@ node_modules
 uploads
 dist
 
-backend/tests/fixtures/**/*.pdf
-backend/tests/fixtures/**/*.xlsx
 *.log
