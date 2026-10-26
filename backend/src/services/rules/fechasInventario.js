@@ -14,7 +14,7 @@ export function revisarFechasContraInventario(ventas, compras, tablas) {
     hallazgos.push(
       hallazgo(
         null,
-        'ERROR',
+        'ADVERTENCIA',
         'ANTERIOR AL INVENTARIO',
         `Hay ${anteriores.length} facturas de venta con fecha anterior a la semana del inventario inicial (${formato(fecha)}); la primera es del ${formato(anteriores[0])}. No se sabe cuánto había antes del inventario.`,
         'Verificar la fecha del inventario inicial, o subir el inventario de la semana en que empiezan las facturas.'

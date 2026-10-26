@@ -36,15 +36,15 @@ export function revisarCompras(compras, op, empresa = null) {
     }
     const clave = `${normalizar(c.proveedor.nombre)}|${c.numeroFactura}`;
     if (vistas.has(clave)) {
-      aviso('ERROR', 'DUPLICADO', 'el mismo proveedor repite el número de factura.', 'Cada factura de un proveedor debe tener un número único.');
+      aviso('ADVERTENCIA', 'DUPLICADO', 'el mismo proveedor repite el número de factura.', 'Cada factura de un proveedor debe tener un número único.');
     }
     vistas.set(clave, true);
     if (empresa) {
       if (empresa.nrc && c.facturarA.nrc && normalizar(c.facturarA.nrc) !== normalizar(empresa.nrc)) {
-        aviso('ERROR', 'EMPRESA', `está facturada al NRC ${c.facturarA.nrc} y la empresa es ${empresa.nrc}.`, 'La factura debe emitirse a nombre de la empresa.');
+        aviso('ADVERTENCIA', 'EMPRESA', `está facturada al NRC ${c.facturarA.nrc} y la empresa es ${empresa.nrc}.`, 'La factura debe emitirse a nombre de la empresa.');
       }
       if (empresa.nit && c.facturarA.nit && normalizar(c.facturarA.nit) !== normalizar(empresa.nit)) {
-        aviso('ERROR', 'EMPRESA', `está facturada al NIT ${c.facturarA.nit} y la empresa es ${empresa.nit}.`, 'La factura debe emitirse a nombre de la empresa.');
+        aviso('ADVERTENCIA', 'EMPRESA', `está facturada al NIT ${c.facturarA.nit} y la empresa es ${empresa.nit}.`, 'La factura debe emitirse a nombre de la empresa.');
       }
     }
   }

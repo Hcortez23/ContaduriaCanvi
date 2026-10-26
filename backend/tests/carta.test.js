@@ -24,7 +24,7 @@ test('carta: lista los errores y observaciones de Puma con su corrección', asyn
   for (const esperado of ['PUMA FOOTWEAR', 'NRC 904036-1', 'A. Errores que deben corregirse', 'B. Observaciones', 'Facturas emitidas', 'Inventario inicial', 'TOTAL', 'Cómo corregirlo', '[Nombre y firma del contador]']) {
     assert.ok(texto.includes(esperado), esperado);
   }
-  assert.match(texto, /Documento .* Qué pasó .* Consumidor final 1 .* Consumidor final 2 /);
+  assert.match(texto, /Documento Qué pasó.* Consumidor final 1 .* Consumidor final 2 /);
   assert.match(texto, /45 casos/);
 });
 

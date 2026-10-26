@@ -61,12 +61,12 @@ test('numeración: si falta una semana del medio, lo dice', () => {
   assert.match(error.detalle, /Faltan los documentos del 3 al 9 \(¿falta subir esa semana\?\)/);
 });
 
-test('facturas de una semana anterior al inventario inicial: error claro', () => {
+test('facturas de una semana anterior al inventario inicial: advertencia clara', () => {
   const { hallazgos, estado } = revisarLote([venta(1, '2026-08-03')], { inventariosIniciales: [tabla('2026-08-17')], catalogo: [] });
   const error = hallazgos.find((h) => h.codigo === 'ANTERIOR AL INVENTARIO');
-  assert.equal(error.gravedad, 'ERROR');
+  assert.equal(error.gravedad, 'ADVERTENCIA');
   assert.match(error.detalle, /1 facturas de venta con fecha anterior.*17\/08\/2026.*03\/08\/2026/);
-  assert.equal(estado, 'pausado');
+  assert.equal(estado, 'listo');
 });
 
 test('inventario con fecha dentro de la misma semana de las facturas: sin problema', () => {

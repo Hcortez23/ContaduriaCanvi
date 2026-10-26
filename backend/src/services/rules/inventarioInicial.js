@@ -8,7 +8,7 @@ const fueraDelRedondeo = (a, b, filas = 1) => Math.abs(a - b) > REDONDEO * filas
 export function revisarInventarioInicial(inventario, op, etiqueta = 'Inventario inicial') {
   const hallazgos = [];
   const ref = { tipo: 'INVENTARIO', correlativo: null, pagina: inventario.pagina };
-  const aviso = (codigo, detalle, correccion) => hallazgos.push(hallazgo(ref, 'ERROR', codigo, `${etiqueta}: ${detalle}`, correccion));
+  const aviso = (codigo, detalle, correccion) => hallazgos.push(hallazgo(ref, ['CALCULO', 'SUBTOTAL', 'IVA', 'TOTAL'].includes(codigo) ? 'ERROR' : 'ADVERTENCIA', codigo, `${etiqueta}: ${detalle}`, correccion));
 
   const campos = ['codigo', 'modelo', 'existencia', 'precioUnitario'];
   inventario.filas.forEach((f, i) => {

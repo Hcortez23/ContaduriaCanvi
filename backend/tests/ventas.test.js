@@ -48,10 +48,12 @@ test('lote sin errores y con catálogo: queda listo y trae el reporte de ventas'
 });
 
 test('lote con errores: queda pausado, muestra los errores y no genera ventas', () => {
-  const lote = [cf(1, 'Zapato color negro talla 40', 2, 100), cf(3, 'Zapato color negro talla 40', 1, 100)];
+  const malo = cf(3, 'Zapato color negro talla 40', 1, 100);
+  malo.factura.total = 1;
+  const lote = [cf(1, 'Zapato color negro talla 40', 2, 100), malo];
   const r = procesarLote(lote, { catalogo: aCatalogo(proponerCatalogo(lote)) });
   assert.equal(r.estado, 'pausado');
-  assert.ok(r.hallazgos.some((h) => h.codigo === 'CORRELATIVO'));
+  assert.ok(r.hallazgos.some((h) => h.codigo === 'TOTAL' && h.gravedad === 'ERROR'));
   assert.equal(r.ventas, null);
 });
 

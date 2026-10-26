@@ -193,7 +193,7 @@ test('inventario inicial: un PDF sin la imagen deja el proceso pausado con un so
   assert.equal(subida.cuerpo.estado, 'pausado');
 
   const revision = (await pedir(`/empresas/${id}/revision`)).cuerpo;
-  assert.deepEqual(codigos(revision).sort(), ['EMPRESA', 'INVENTARIO INICIAL']);
+  assert.deepEqual(codigos(revision).sort(), ['INVENTARIO INICIAL']);
   const hallazgo = revision.hallazgos.find((h) => h.codigo === 'INVENTARIO INICIAL');
   assert.match(hallazgo.correccion, /primera página/);
   assert.equal((await pedir(`/empresas/${id}/libro`)).status, 409);
@@ -213,7 +213,7 @@ test('inventario inicial: si la IA falla al leer la imagen, las facturas se guar
     restaurar();
   }
   assert.equal((await pedir(`/empresas/${id}/facturas`)).cuerpo.length, 50);
-  assert.deepEqual(codigos((await pedir(`/empresas/${id}/revision`)).cuerpo).sort(), ['EMPRESA', 'INVENTARIO INICIAL']);
+  assert.deepEqual(codigos((await pedir(`/empresas/${id}/revision`)).cuerpo).sort(), ['INVENTARIO INICIAL']);
   assert.equal((await pedir(`/empresas/${id}/inventarios-iniciales`)).cuerpo.length, 0);
 });
 

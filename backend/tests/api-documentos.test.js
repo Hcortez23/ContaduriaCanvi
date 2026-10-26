@@ -241,9 +241,9 @@ test('desorden: subir la semana 3, luego el inventario, la 1, la 2 y las compras
   await subir(`/empresas/${id}/documentos/inventario`, excel, 'inventario.xlsx', XLSX, '2026-08-03');
   await subir(`/empresas/${id}/documentos/ventas`, await sinImagen('puma-sin-errores.pdf'));
   r = await estado();
-  assert.equal(r.estado, 'pausado');
-  assert.ok(r.hallazgos.some((h) => h.codigo === 'CORRELATIVO' && /Faltan los documentos del 46 al 90 \(¿falta subir esa semana\?\)/.test(h.detalle)));
-  assert.deepEqual([...new Set(codigosError(r))], ['CORRELATIVO']);
+  assert.equal(r.estado, 'listo');
+  assert.ok(r.hallazgos.some((h) => h.codigo === 'CORRELATIVO' && h.gravedad === 'ADVERTENCIA' && /Faltan los documentos del 46 al 90 \(¿falta subir esa semana\?\)/.test(h.detalle)));
+  assert.deepEqual(codigosError(r), []);
 
   await subir(`/empresas/${id}/documentos/ventas`, semana('02 - Ventas de la semana 2.pdf'));
   assert.equal((await estado()).estado, 'listo');
@@ -282,15 +282,14 @@ test('solo el inventario, sin ninguna factura: el libro avisa que aún no hay se
   assert.match(libro.cuerpo.error, /Todavía no hay semanas/);
 });
 
-test('inventario con fecha posterior a las facturas: el sistema lo detecta y pausa', { skip: !hayBase }, async () => {
+test('inventario con fecha posterior a las facturas: el sistema lo detecta como advertencia', { skip: !hayBase }, async () => {
   const empresa = await crearEmpresa({ nombre: 'Puma Fecha Tardía', nrc: '904036-1', nit: NIT });
   const id = empresa.cuerpo._id;
   const excel = await excelDeInventario(JSON.parse(fixture('inventario-puma-corregido.json')));
   await subir(`/empresas/${id}/documentos/inventario`, excel, 'inventario.xlsx', XLSX, '2026-08-17');
   await subir(`/empresas/${id}/documentos/ventas`, await sinImagen('puma-sin-errores.pdf'));
   const r = (await pedir(`/empresas/${id}/revision`)).cuerpo;
-  assert.equal(r.estado, 'pausado');
-  assert.ok(r.hallazgos.some((h) => h.codigo === 'ANTERIOR AL INVENTARIO' && h.gravedad === 'ERROR'));
+  assert.ok(r.hallazgos.some((h) => h.codigo === 'ANTERIOR AL INVENTARIO' && h.gravedad === 'ADVERTENCIA'));
 });
 
 test('formato de la Ñaña: el PDF de la semana 4 se sube sin IA y el sistema señala los errores reales de las facturas', { skip: !hayBase }, async () => {
@@ -314,6 +313,6 @@ test('formato de la Ñaña: el PDF de la semana 4 se sube sin IA y el sistema se
 
   const revision = (await pedir(`/empresas/${id}/revision`)).cuerpo;
   const errores = revision.hallazgos.filter((h) => h.gravedad === 'ERROR').map((h) => `${h.codigo}${h.correlativo ? ` ${h.correlativo}` : ''}`).sort();
-  assert.deepEqual(errores, ['CORRELATIVO 136', 'CORRELATIVO 16', 'TOTAL 157', 'TOTAL 173'].sort());
+  assert.deepEqual(errores, ['TOTAL 157', 'TOTAL 173'].sort());
   assert.equal((await pedir(`/empresas/${id}/carta`)).status, 200);
 });

@@ -64,10 +64,10 @@ test('Puma original: las 45 facturas de consumidor final suman las bases sin IVA
   assert.ok(totales.every((x) => /sin el IVA/.test(x.detalle)));
 });
 
-test('Puma: el cliente del CCF aparece con 5 NRC distintos y el emisor está mal escrito', async () => {
+test('Puma: el cliente del CCF aparece con 5 NRC distintos y el nombre del emisor mal escrito es advertencia', async () => {
   const h = await revisar('puma-arreglado');
-  assert.equal(docs(h, 'CLIENTE', 'ERROR').length, 5);
-  assert.equal(docs(h, 'EMISOR', 'ERROR').length, 5);
+  assert.equal(docs(h, 'CLIENTE', 'ADVERTENCIA').length, 5);
+  assert.equal(docs(h, 'EMISOR', 'ADVERTENCIA').length, 5);
 });
 
 test('Puma: el 1% está bien aplicado (solo sobre $250) pero mal rotulado en los cinco CCF', async () => {
@@ -106,13 +106,14 @@ test('1%: con $250 exactos no se aplica; con $251 es obligatorio', () => {
 });
 
 test('un lote con errores queda pausado y uno sin errores queda listo', () => {
-  assert.equal(revisarLote([cf(1), cf(3)]).estado, 'pausado');
+  assert.equal(revisarLote([cf(1, '2026-08-03', 200)]).estado, 'pausado');
+  assert.equal(revisarLote([cf(1), cf(3)]).estado, 'listo');
   assert.equal(revisarLote([cf(1), cf(2)]).estado, 'listo');
 });
 
 test('Puma: detecta documentos sin título y el texto extraño del CCF 2', async () => {
   const h = await revisar('puma-arreglado');
-  const sinTitulo = docs(h, 'ENCABEZADO', 'ERROR');
+  const sinTitulo = docs(h, 'ENCABEZADO', 'ADVERTENCIA');
   for (const esperado of ['CF30', 'CF45', 'CCF2', 'CCF3', 'CCF4', 'CCF5']) assert.ok(sinTitulo.includes(esperado), esperado);
   assert.ok(h.some((x) => x.codigo === 'ENCABEZADO' && /A2:H29/.test(x.detalle)));
 });
@@ -128,7 +129,7 @@ test('Step Style: los cálculos cuadran pero 18 CF dicen "CONSUMIDOR FISCAL"', a
   assert.equal(docs(h, 'TOTAL').length, 0);
   assert.equal(docs(h, 'CALCULO').length, 0);
   assert.equal(docs(h, 'IVA').length, 0);
-  const titulos = h.filter((x) => x.codigo === 'ENCABEZADO' && x.gravedad === 'ERROR');
+  const titulos = h.filter((x) => x.codigo === 'ENCABEZADO' && /pero el documento es de tipo/.test(x.detalle));
   assert.equal(titulos.length, 18);
   assert.ok(titulos.every((x) => /CONSUMIDOR FISCAL/.test(x.detalle)));
 });
@@ -136,4 +137,15 @@ test('Step Style: los cálculos cuadran pero 18 CF dicen "CONSUMIDOR FISCAL"', a
 test('Step Style: el 1% de los cinco CCF está mal rotulado', async () => {
   const h = await revisar('stepstyle');
   assert.equal(docs(h, 'TEXTO').length, 5);
+});
+
+test('emisor: un nombre con error de ortografía es advertencia, un NRC distinto también', async () => {
+  const { revisarConsistencia } = await import('../src/services/rules/consistencia.js');
+  const doc = (correlativo, nombre, nrc = '1-1') => ({
+    factura: { tipo: 'CF', correlativo, fecha: '2026-08-03', emisor: { nombre, nit: '1', nrc }, numeroDocumento: null },
+    lectura: { titulo: 'FACTURA CONSUMIDOR FINAL', avisos: [] },
+  });
+  const h = revisarConsistencia([doc(1, 'Puma Footwear'), doc(2, 'Puma Footwear'), doc(3, 'PUMA FOOTWAER'), doc(4, 'Puma Footwear', '9-9')]).filter((x) => x.codigo === 'EMISOR');
+  assert.equal(h.find((x) => x.correlativo === 3).gravedad, 'ADVERTENCIA');
+  assert.equal(h.find((x) => x.correlativo === 4).gravedad, 'ADVERTENCIA');
 });
