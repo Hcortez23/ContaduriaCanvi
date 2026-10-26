@@ -8,7 +8,7 @@ import { revisarInventarioInicial } from './inventarioInicial.js';
 import { normalizarTablas } from '../inventario/tablas.js';
 import { revisarFechasContraInventario } from './fechasInventario.js';
 
-const GRAVEDAD = { ERROR: 0, ADVERTENCIA: 1 };
+const GRAVEDAD = { ERROR: 0, ADVERTENCIA_GRAVE: 1, ADVERTENCIA: 2 };
 
 export function revisarLote(ventas, opciones = {}) {
   const { catalogo, compras = [], empresa = null, inventarioInicial = null, inventariosIniciales = null, ...resto } = opciones;
@@ -34,13 +34,15 @@ export function revisarLote(ventas, opciones = {}) {
       (a.correlativo ?? 0) - (b.correlativo ?? 0)
   );
   const errores = hallazgos.filter((h) => h.gravedad === 'ERROR').length;
+  const graves = hallazgos.filter((h) => h.gravedad === 'ADVERTENCIA_GRAVE').length;
   return {
     estado: errores ? 'pausado' : 'listo',
     hallazgos,
     resumen: {
       documentos: ventas.length + compras.length,
       errores,
-      advertencias: hallazgos.length - errores,
+      advertenciasGraves: graves,
+      advertencias: hallazgos.length - errores - graves,
     },
   };
 }

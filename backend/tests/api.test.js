@@ -78,9 +78,10 @@ test('api: con el inventario inicial cargado se revisan totales y productos, y e
 
   const { cuerpo } = await pedir(`/empresas/${id}/revision`);
   const cuenta = (codigo) => cuerpo.hallazgos.filter((h) => h.gravedad === 'ERROR' && h.codigo === codigo).length;
+  const graves = (codigo) => cuerpo.hallazgos.filter((h) => h.gravedad === 'ADVERTENCIA_GRAVE' && h.codigo === codigo).length;
   assert.equal(cuerpo.estado, 'pausado');
   assert.equal(cuenta('TOTAL'), 45);
-  assert.equal(cuenta('PRODUCTO SIN IDENTIFICAR'), 3);
+  assert.equal(graves('PRODUCTO SIN IDENTIFICAR'), 3);
   assert.equal(cuenta('SUBTOTAL'), 1);
   assert.equal(cuenta('INVENTARIO INICIAL'), 0);
 

@@ -4,8 +4,11 @@ import { Panel, Enlace, BotonEnlace, Etiqueta, Aviso, Ayuda, CAMPO } from './ui.
 
 const NOMBRES_TIPO = { CF: 'Consumidor final', CCF: 'Crédito fiscal', COMPRA: 'Compra', INVENTARIO: 'Inventario inicial', TODAS: 'General' };
 
-function Punto({ error }) {
-  return <span className={`mt-1.5 size-2 shrink-0 rounded-full border border-black ${error ? 'bg-black' : 'bg-white'}`} title={error ? 'Error' : 'Advertencia'} />;
+const PUNTOS = { ERROR: ['bg-black', 'Error'], ADVERTENCIA_GRAVE: ['bg-neutral-400', 'Advertencia grave'], ADVERTENCIA: ['bg-white', 'Advertencia'] };
+
+function Punto({ gravedad }) {
+  const [color, titulo] = PUNTOS[gravedad] || PUNTOS.ADVERTENCIA;
+  return <span className={`mt-1.5 size-2 shrink-0 rounded-full border border-black ${color}`} title={titulo} />;
 }
 
 function agruparPorDocumento(hallazgos) {
@@ -30,7 +33,7 @@ function Documento({ grupo }) {
       <ul className="m-0 grid list-none gap-3 p-4">
         {grupo.items.map((h, i) => (
           <li key={i} className="flex gap-3">
-            <Punto error={h.gravedad === 'ERROR'} />
+            <Punto gravedad={h.gravedad} />
             <div className="min-w-0">
               <p className="m-0 text-sm">
                 <span className="mr-2 rounded bg-neutral-100 px-1.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-neutral-600">{h.codigo}</span>
@@ -64,7 +67,7 @@ export default function Errores({ empresa, revision, irADocumentos }) {
       <Panel>
         {datos.estado === 'pausado' ? (
           <p className="m-0 text-sm leading-relaxed">
-            Corrige estos errores en las facturas y <Enlace onClick={irADocumentos}>sube el PDF corregido</Enlace>. El proceso continúa solo cuando no queda ningún error. Las advertencias no detienen el proceso.
+            Corrige estos errores en las facturas y <Enlace onClick={irADocumentos}>sube el PDF corregido</Enlace>. El proceso continúa solo cuando no queda ningún error. Las advertencias, graves o no, no detienen el proceso; una advertencia grave deja esa línea fuera del inventario hasta corregirla.
           </p>
         ) : datos.estado === 'vacio' ? (
           <p className="m-0 text-sm">Todavía no hay documentos cargados.</p>
@@ -87,6 +90,7 @@ export default function Errores({ empresa, revision, irADocumentos }) {
               <select className={CAMPO} value={gravedad} onChange={(e) => setGravedad(e.target.value)}>
                 <option value="TODAS">Todas</option>
                 <option value="ERROR">Errores</option>
+                <option value="ADVERTENCIA_GRAVE">Advertencias graves</option>
                 <option value="ADVERTENCIA">Advertencias</option>
               </select>
             </Etiqueta>

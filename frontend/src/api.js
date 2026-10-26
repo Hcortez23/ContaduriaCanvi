@@ -33,6 +33,13 @@ export const api = {
   reporteVentas: (id) => pedir(`/empresas/${id}/reporte-ventas`),
   mensual: (id) => pedir(`/empresas/${id}/mensual`),
   inventario: (id) => pedir(`/empresas/${id}/inventario`),
+  chat: (id, mensajes) => pedir(`/empresas/${id}/chat`, json('POST', { mensajes })),
+  subirDesdeChat: (id, archivo, campos = {}) => {
+    const forma = new FormData();
+    for (const [clave, valor] of Object.entries(campos)) if (valor) forma.append(clave, valor);
+    forma.append('archivo', archivo);
+    return pedir(`/empresas/${id}/chat/archivo`, { method: 'POST', body: forma });
+  },
   urlLibro: (id) => `${BASE}/empresas/${id}/libro`,
   urlCarta: (id) => `${BASE}/empresas/${id}/carta`,
 };

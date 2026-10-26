@@ -8,8 +8,8 @@ export const sumarDias = (iso, dias) => aIso(aTiempo(iso) + dias * DIA);
 export const inicioSemana = (iso) => aIso(aTiempo(iso) - ((new Date(`${iso}T00:00:00Z`).getUTCDay() + 6) % 7) * DIA);
 
 function movimientos(documentos, catalogo, signo) {
-  const { resueltas, sinIdentificar } = resolverProductos(documentos, catalogo);
-  if (sinIdentificar.length) throw new Error('Hay productos sin identificar; el libro no se puede generar');
+  const { resueltas } = resolverProductos(documentos, catalogo);
+  // las líneas sin identificar quedan fuera; ya se reportan como ADVERTENCIA GRAVE
   return resueltas.map(({ clave, factura, linea }) => ({ clave, fecha: factura.fecha, cantidad: linea.cantidad * signo }));
 }
 

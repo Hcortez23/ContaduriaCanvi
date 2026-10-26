@@ -1,8 +1,8 @@
 import { resolverProductos } from './productos.js';
 
 function movimientos(documentos, catalogo, signo) {
-  const { resueltas, sinIdentificar } = resolverProductos(documentos, catalogo);
-  if (sinIdentificar.length) throw new Error('Hay productos sin identificar; el inventario no se puede generar');
+  const { resueltas } = resolverProductos(documentos, catalogo);
+  // las líneas sin identificar quedan fuera; ya se reportan como ADVERTENCIA GRAVE
   return resueltas.map(({ factura, linea, clave }) => ({
     clave,
     fecha: factura.fecha,

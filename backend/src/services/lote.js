@@ -15,7 +15,7 @@ export function procesarLote(
   const tablas = normalizarTablas({ inventariosIniciales, inventarioInicial });
 
   if (!ventas.length && !compras.length && !tablas.length) {
-    return { estado: 'vacio', hallazgos: [], resumen: { documentos: 0, errores: 0, advertencias: 0 }, ...SIN_RESULTADOS };
+    return { estado: 'vacio', hallazgos: [], resumen: { documentos: 0, errores: 0, advertenciasGraves: 0, advertencias: 0 }, ...SIN_RESULTADOS };
   }
   if (!tablas.length && !catalogo.length) {
     const sinCatalogo = revisarLote(ventas, { compras, empresa, ...opciones });

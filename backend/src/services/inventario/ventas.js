@@ -16,8 +16,8 @@ function montosLinea(factura, linea, tasaIva) {
 }
 
 export function reporteVentas(resultados, catalogo, { iva: tasaIva }) {
-  const { resueltas, sinIdentificar } = resolverProductos(resultados, catalogo);
-  if (sinIdentificar.length) throw new Error('Hay productos sin identificar; el reporte no se puede generar');
+  const { resueltas } = resolverProductos(resultados, catalogo);
+  // las líneas sin identificar quedan fuera; ya se reportan como ADVERTENCIA GRAVE
 
   const nombres = new Map(catalogo.map((p) => [p.clave, p.nombre]));
   const productos = new Map();

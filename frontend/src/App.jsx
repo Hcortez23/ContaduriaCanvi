@@ -8,6 +8,7 @@ import Ventas from './componentes/Ventas.jsx';
 import Inventario from './componentes/Inventario.jsx';
 import Mensual from './componentes/Mensual.jsx';
 import Libro from './componentes/Libro.jsx';
+import Chat from './componentes/Chat.jsx';
 import { Boton, Aviso, Icono, CAMPO } from './componentes/ui.jsx';
 
 const CLAVE_EMPRESA = 'empresaActiva';
@@ -80,6 +81,7 @@ function Estado({ empresa, revision, enCurso }) {
       {datos && !vacio && (
         <div className="flex gap-8">
           <Cifra valor={datos.resumen.errores} etiqueta="Errores" tenue={pausado} />
+          <Cifra valor={datos.resumen.advertenciasGraves ?? 0} etiqueta="Graves" tenue={pausado} />
           <Cifra valor={datos.resumen.advertencias} etiqueta="Advertencias" tenue={pausado} />
           <Cifra valor={datos.resumen.documentos} etiqueta="Documentos" tenue={pausado} />
         </div>
@@ -260,6 +262,7 @@ export default function App() {
           </div>
         )}
       </main>
+      {empresa && <Chat key={empresa._id} empresaId={empresa._id} onSubido={datosCambiaron} />}
     </div>
   );
 }

@@ -82,8 +82,8 @@ test('inventario: compras − ventas, saldo anterior al periodo y alerta de nega
   assert.deepEqual(semana2.alertas.map((a) => a.final), [-1]);
 });
 
-test('inventario: producto sin identificar impide generarlo', () => {
-  assert.throws(() => calcularInventario({ ventas: [documento('2026-08-03', 'Algo raro', 1)], compras: [], catalogo: [] }), /sin identificar/);
+test('inventario: un producto sin identificar queda fuera del inventario', () => {
+  assert.equal(calcularInventario({ ventas: [documento('2026-08-03', 'Algo raro', 1)], compras: [], catalogo: [] }).productos.length, 0);
 });
 
 test('Villa Lactea: el cálculo reproduce el cierre de la semana 1 y el inicial de la semana 2 de su Excel', async () => {

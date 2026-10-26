@@ -27,16 +27,27 @@ function revisarIvaDuplicado(resueltas, catalogo, iva) {
 
 export function revisarProductos(resultados, catalogo, iva = 0.13) {
   const { resueltas, sinIdentificar } = resolverProductos(resultados, catalogo);
-  const errores = sinIdentificar.map(({ factura, linea, sugerencia }) =>
+  const graves = sinIdentificar.map(({ factura, linea, sugerencia }) =>
     hallazgo(
       factura,
-      'ERROR',
+      'ADVERTENCIA_GRAVE',
       'PRODUCTO SIN IDENTIFICAR',
       sugerencia.razon
         ? `Línea ${linea.n}: "${linea.descripcion}": ${sugerencia.razon}.`
         : `Línea ${linea.n}: "${linea.descripcion}" no está en el inventario inicial.`,
-      'Corregir la descripción si está mal escrita, o agregar el producto al inventario inicial.'
+      'Esta línea queda fuera del inventario y del libro. Corregir la descripción si está mal escrita, o agregar el producto al inventario inicial.'
     )
   );
-  return [...errores, ...revisarIvaDuplicado(resueltas, catalogo, iva)];
+  const ortografia = resueltas
+    .filter((r) => r.aproximada)
+    .map(({ factura, linea, clave }) =>
+      hallazgo(
+        factura,
+        'ADVERTENCIA',
+        'DESCRIPCION',
+        `Línea ${linea.n}: "${linea.descripcion}" parece mal escrita; se asignó a "${catalogo.find((p) => p.clave === clave)?.nombre ?? clave}".`,
+        'Confirmar el producto y corregir la descripción.'
+      )
+    );
+  return [...graves, ...ortografia, ...revisarIvaDuplicado(resueltas, catalogo, iva)];
 }

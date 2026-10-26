@@ -86,9 +86,11 @@ test('formato de la Ñaña: el motor encuentra solo los errores reales de las fa
   assert.ok(por('CORRELATIVO').every((h) => /Faltan los documentos del 1 al/.test(h.detalle)));
   assert.deepEqual(por('TOTAL').map((h) => h.correlativo).sort(), [157, 173]);
   assert.match(por('TOTAL').find((h) => h.correlativo === 173).detalle, /no trae el total/);
-  assert.equal(por('PRODUCTO SIN IDENTIFICAR').length, 1);
-  assert.match(por('PRODUCTO SIN IDENTIFICAR')[0].detalle, /Garrafón 1\.5 L/);
-  assert.equal(errores.length, 5);
+  const sinIdentificar = r.hallazgos.filter((h) => h.codigo === 'PRODUCTO SIN IDENTIFICAR');
+  assert.equal(sinIdentificar.length, 1);
+  assert.equal(sinIdentificar[0].gravedad, 'ADVERTENCIA_GRAVE');
+  assert.match(sinIdentificar[0].detalle, /Garrafón 1\.5 L/);
+  assert.equal(errores.length, 4);
   assert.equal(r.hallazgos.filter((h) => h.codigo === 'NUMERO DOCUMENTO').length, 0);
   assert.equal(r.hallazgos.filter((h) => h.codigo === 'CLIENTE').length, 0);
 });

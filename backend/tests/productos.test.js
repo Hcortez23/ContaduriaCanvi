@@ -32,13 +32,13 @@ test('catálogo propuesto: Step Style junta descripciones con las palabras en ot
   assert.equal(grupoDe('tiempo talla 40 color nergro'), grupoDe('tiempo color negro talla 40'));
 });
 
-test('con un catálogo vacío todas las líneas quedan sin identificar y el lote se pausa', async () => {
+test('con un catálogo vacío todas las líneas quedan sin identificar, como advertencia grave', async () => {
   const resultados = await leer('puma-arreglado');
   const { sinIdentificar } = resolverProductos(resultados, []);
   assert.equal(sinIdentificar.length, 100);
   const revision = revisarLote(resultados, { catalogo: [] });
-  assert.equal(errores(revision.hallazgos, 'PRODUCTO SIN IDENTIFICAR').length, 100);
-  assert.equal(revision.estado, 'pausado');
+  assert.equal(revision.hallazgos.filter((h) => h.codigo === 'PRODUCTO SIN IDENTIFICAR' && h.gravedad === 'ADVERTENCIA_GRAVE').length, 100);
+  assert.equal(revision.resumen.advertenciasGraves, 100);
 });
 
 test('con el catálogo confirmado ya no hay productos sin identificar', async () => {

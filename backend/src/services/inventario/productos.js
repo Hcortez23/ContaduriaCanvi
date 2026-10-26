@@ -60,7 +60,7 @@ export function resolverProductos(resultados, catalogo = []) {
     const clave = porAlias.get(descripcionNormalizada(linea.descripcion));
     const automatica = !clave && base.entradas.length ? coincidir(linea.descripcion, base, factura.proveedor?.nombre ?? '') : null;
     if (clave || automatica?.clave) {
-      resueltas.push({ factura, linea, clave: clave || automatica.clave });
+      resueltas.push({ factura, linea, clave: clave || automatica.clave, aproximada: !clave && !!automatica.aproximada });
     } else if (automatica) {
       sinIdentificar.push({ factura, linea, sugerencia: { clave: '', nombre: linea.descripcion, existente: false, razon: automatica.razon } });
     } else {

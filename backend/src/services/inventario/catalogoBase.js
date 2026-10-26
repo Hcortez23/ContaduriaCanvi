@@ -112,13 +112,13 @@ function lineaEsAbreviatura(base, tokens, disponibles) {
   return candidatas.length === 1 ? { clave: candidatas[0].clave } : null;
 }
 
-function aproximar(entrada, tokens) {
+function aproximar(entrada, tokens, holgura = 0) {
   const libres = [...tokens];
   const resultado = [];
   for (const t of entrada.tokens) {
     let i = libres.indexOf(t);
     if (i < 0 && /^[a-z]{4,}$/.test(t)) {
-      const maximo = t.length <= 5 ? 1 : 2;
+      const maximo = (t.length <= 5 ? 1 : 2) + holgura;
       i = libres.findIndex((x) => /^[a-z]{4,}$/.test(x) && distancia(x, t) <= maximo);
     }
     if (i < 0) return null;
@@ -128,10 +128,10 @@ function aproximar(entrada, tokens) {
   return [...resultado, ...libres];
 }
 
-function porAproximacion(base, tokens, contexto) {
+function porAproximacion(base, tokens, holgura = 0) {
   const candidatas = [];
   for (const e of base.entradas) {
-    const lista = aproximar(e, tokens);
+    const lista = aproximar(e, tokens, holgura);
     if (!lista) continue;
     const reparada = [...e.tokens, ...lista.slice(e.tokens.length)];
     const r = evaluar(e, reparada, '');
@@ -140,7 +140,7 @@ function porAproximacion(base, tokens, contexto) {
   if (!candidatas.length) return null;
   const largo = Math.max(...candidatas.map((c) => c.largo));
   const mejores = candidatas.filter((c) => c.largo === largo);
-  return mejores.length === 1 ? { clave: mejores[0].clave } : null;
+  return mejores.length === 1 ? { clave: mejores[0].clave, aproximada: holgura > 0 } : null;
 }
 
 export function coincidir(descripcion, base, contexto = '') {
@@ -151,7 +151,7 @@ export function coincidir(descripcion, base, contexto = '') {
 
   const contenidas = base.entradas.filter((e) => e.producto.every((t) => tokens.includes(t)) && e.marca.every((t) => disponibles.has(t)));
   if (!contenidas.length) {
-    return lineaEsAbreviatura(base, tokens, disponibles) ?? soloPorMarca(base, tokens, disponibles) ?? porAproximacion(base, tokens) ?? { razon: 'el modelo no está en el inventario inicial' };
+    return lineaEsAbreviatura(base, tokens, disponibles) ?? soloPorMarca(base, tokens, disponibles) ?? porAproximacion(base, tokens) ?? porAproximacion(base, tokens, 1) ?? { razon: 'el modelo no está en el inventario inicial' };
   }
   const largo = Math.max(...contenidas.map((e) => e.tokens.length));
   const candidatas = contenidas.filter((e) => e.tokens.length === largo);

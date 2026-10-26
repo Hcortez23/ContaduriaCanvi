@@ -5,6 +5,7 @@ import { subirPdf, subirArchivoInventario } from '../middlewares/subida.js';
 import * as empresas from '../controllers/empresas.js';
 import * as documentos from '../controllers/documentos.js';
 import * as reportes from '../controllers/reportes.js';
+import * as asistente from '../controllers/chat.js';
 
 const router = Router();
 
@@ -34,5 +35,7 @@ router.get('/:id/inventario', a(reportes.inventario));
 router.get('/:id/mensual', a(reportes.mensual));
 router.get('/:id/libro', a(reportes.libro));
 router.get('/:id/carta', a(reportes.carta));
+router.post('/:id/chat', a(asistente.chat));
+router.post('/:id/chat/archivo', subirArchivoInventario, a(documentos.subirAsistido));
 
 export default router;

@@ -30,7 +30,7 @@ const subirInventario = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 60 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
-    if (!TIPOS_INVENTARIO.has(file.mimetype)) return cb(new HttpError(400, 'El inventario inicial debe ser un PDF, una imagen (PNG o JPG) o un Excel (.xlsx)'));
+    if (!TIPOS_INVENTARIO.has(file.mimetype)) return cb(new HttpError(400, 'El archivo debe ser un PDF, una imagen (PNG, JPG o WEBP) o un Excel (.xlsx)'));
     cb(null, true);
   },
 }).single('archivo');

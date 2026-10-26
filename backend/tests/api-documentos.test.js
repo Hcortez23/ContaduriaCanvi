@@ -314,6 +314,6 @@ test('formato de la Ñaña: el PDF de la semana 4 se sube sin IA y el sistema se
 
   const revision = (await pedir(`/empresas/${id}/revision`)).cuerpo;
   const errores = revision.hallazgos.filter((h) => h.gravedad === 'ERROR').map((h) => `${h.codigo}${h.correlativo ? ` ${h.correlativo}` : ''}`).sort();
-  assert.deepEqual(errores, ['CORRELATIVO 136', 'CORRELATIVO 16', 'PRODUCTO SIN IDENTIFICAR 145', 'TOTAL 157', 'TOTAL 173'].sort());
+  assert.deepEqual(errores, ['CORRELATIVO 136', 'CORRELATIVO 16', 'TOTAL 157', 'TOTAL 173'].sort());
   assert.equal((await pedir(`/empresas/${id}/carta`)).status, 200);
 });

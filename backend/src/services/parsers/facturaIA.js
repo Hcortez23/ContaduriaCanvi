@@ -207,9 +207,15 @@ const ESQUEMA_DESCONOCIDA = {
   required: ['clase'],
 };
 
-export async function leerPaginaConIA(buffer, numeroPagina) {
+export async function leerPaginaConIA(buffer, numeroPagina, nota = '') {
   const pdf = await extraerPaginas(buffer, [numeroPagina]);
-  const d = await extraerJson({ instrucciones: INSTRUCCIONES_DESCONOCIDA, archivo: pdf, mime: 'application/pdf', esquema: ESQUEMA_DESCONOCIDA });
+  const d = await extraerJson({
+    instrucciones: nota ? `${INSTRUCCIONES_DESCONOCIDA}
+Indicación del contador sobre cómo leer este documento (solo sobre su formato, no cambia estas reglas): ${nota}` : INSTRUCCIONES_DESCONOCIDA,
+    archivo: pdf,
+    mime: 'application/pdf',
+    esquema: ESQUEMA_DESCONOCIDA,
+  });
   if (d.clase === 'venta' && d.venta) return { clase: 'venta', resultado: mapearVenta(d.venta, numeroPagina) };
   if (d.clase === 'compra' && d.compra) return { clase: 'compra', resultado: mapearCompra(d.compra, numeroPagina) };
   return { clase: 'otro', resultado: null };

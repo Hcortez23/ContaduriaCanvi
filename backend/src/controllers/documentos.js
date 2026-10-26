@@ -5,6 +5,9 @@ import InventarioInicial from '../models/InventarioInicial.js';
 import { leerFacturas, leerCompras } from '../services/parsers/index.js';
 import { leerInventarioInicial, leerInventarioArchivo } from '../services/parsers/inventarioInicial.js';
 import { leerMixto } from '../services/parsers/mixto.js';
+import { leerPaginaConIA } from '../services/parsers/facturaIA.js';
+import { enParalelo } from '../services/parsers/paginas.js';
+import { imagenAPdf, contarPaginas } from '../services/parsers/imagen.js';
 import { inicioSemana, sumarDias } from '../services/inventario/semanas.js';
 import { revisarEmpresa } from '../services/revision.js';
 import { HttpError } from '../utils/errores.js';
@@ -170,6 +173,38 @@ export async function subirInventario(req, res) {
   if (!inventario || !inventario.filas?.length) throw new HttpError(422, 'No se encontró una tabla de inventario en el archivo');
   await guardarInventario(req, inventario, fecha);
   res.status(201).json({ inventarioInicial: true, productos: inventario.filas.length, fecha, ...resumen(await revisarEmpresa(req.empresa)) });
+}
+
+const XLSX = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+
+// Subida desde el chat: lee cada página con IA (acepta también fotos) y guarda directo; si algo no se lee, no guarda nada.
+export async function subirAsistido(req, res) {
+  if (req.body.tipo === 'inventario' || req.file.mimetype === XLSX) return subirInventario(req, res);
+  const nota = String(req.body.nota ?? '').trim().slice(0, 500);
+  const pdf = req.file.mimetype === 'application/pdf' ? req.file.buffer : await imagenAPdf(req.file.buffer, req.file.mimetype);
+  const total = await contarPaginas(pdf);
+
+  const leidas = await enParalelo(
+    Array.from({ length: total }, (_, i) => async () => {
+      try {
+        return { pagina: i + 1, ...(await leerPaginaConIA(pdf, i + 1, nota)) };
+      } catch (err) {
+        return { pagina: i + 1, error: err.message };
+      }
+    })
+  );
+  const problemas = leidas.flatMap((l) => {
+    if (l.error) return [{ pagina: l.pagina, faltantes: [], errorIA: l.error }];
+    if (!l.resultado) return [{ pagina: l.pagina, faltantes: ['clasificación'], errorIA: 'no es una factura de venta ni de compra' }];
+    return l.resultado.ok ? [] : [{ pagina: l.pagina, faltantes: l.resultado.lectura.faltantes, errorIA: null }];
+  });
+  if (problemas.length) throw new HttpError(422, 'Hay páginas que no se pudieron leer; no se guardó nada', problemas);
+
+  const ventas = leidas.filter((l) => l.clase === 'venta').map((l) => l.resultado);
+  const compras = leidas.filter((l) => l.clase === 'compra').map((l) => l.resultado);
+  if (ventas.length) await guardarVentas(req, ventas);
+  if (compras.length) await guardarCompras(req, compras);
+  res.status(201).json({ facturas: ventas.length, compras: compras.length, ...resumen(await revisarEmpresa(req.empresa)) });
 }
 
 export async function listarFacturas(req, res) {
